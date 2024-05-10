@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model NetbankingAccount {
+  userId                  Int           @id @unique
+  password                String
+  bankName                BankName
+  transactions            Transaction[]
+  bankAccount             BankAccount?
+}
+
+model BankAccount {
+  accountNumber  Int               @id @unique
+  balance        Int
+  userName       String
+  netbankAccount NetbankingAccount @relation(fields: [netbankUserId], references: [userId])
+  netbankUserId  Int @unique
+}
+
+model Transaction {
+  txId                    Int               @id @default(autoincrement())
+  token                   String            @unique
+  status                  PaymentStatus
+  amount                  Int
+  date                    DateTime
+  netbankingAccount       NetbankingAccount @relation(fields: [netbankingUserId], references: [userId])
+  netbankingUserId        Int
+}
+
+enum PaymentStatus {
+  INITIATED
+  PROCESSING
+  SUCCESS
+  FAILED
+}
+
+enum BankName {
+  HDFC
+  KOTAK
+}
