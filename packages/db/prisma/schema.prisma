@@ -18,15 +18,15 @@ model NetbankingAccount {
   password                String
   bankName                BankName
   transactions            Transaction[]
-  bankAccount             BankAccount?
+  bankAccount             BankAccount  @relation(fields: [bankAccountId], references: [accountNumber])
+  bankAccountId           Int @unique
 }
 
 model BankAccount {
   accountNumber  Int               @id @unique
   balance        Int
   userName       String
-  netbankAccount NetbankingAccount @relation(fields: [netbankUserId], references: [userId])
-  netbankUserId  Int @unique
+  netbankAccount NetbankingAccount?
 }
 
 model Transaction {
@@ -37,6 +37,16 @@ model Transaction {
   date                    DateTime
   netbankingAccount       NetbankingAccount @relation(fields: [netbankingUserId], references: [userId])
   netbankingUserId        Int
+  paymentApp              PaymentApp?
+}
+
+model RegisteredApp {
+  paymentApp PaymentApp
+  secretKey  String
+  bankName   BankName
+  webhookUrl String
+
+  @@id([paymentApp, bankName])
 }
 
 enum PaymentStatus {
@@ -49,4 +59,14 @@ enum PaymentStatus {
 enum BankName {
   HDFC
   KOTAK
+}
+
+enum PaymentApp {
+  PAYMNT 
+  PAYTM 
+  PHONEPE
+  QUCKPAY
+  MOBIQWIK
+  ZEBPAY
+  XYZPAY
 }

@@ -1,4 +1,9 @@
-import { BankName, PaymentStatus, PrismaClient } from "@prisma/client";
+import {
+  BankName,
+  PaymentApp,
+  PaymentStatus,
+  PrismaClient,
+} from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const client = new PrismaClient();
@@ -66,6 +71,48 @@ async function main() {
       netbankingAccount: {
         connect: netbankingUser,
       },
+    },
+  });
+
+  await client.registeredApp.upsert({
+    where: {
+      paymentApp_bankName: {
+        paymentApp: PaymentApp.PAYTM,
+        bankName: BankName.HDFC,
+      },
+    },
+    update: {
+      paymentApp: PaymentApp.PAYMNT,
+      secretKey: "PAYMNT_SECRET_HDFC",
+      bankName: BankName.HDFC,
+      webhookUrl: "http://localhost:3005/api/v1/hdfcWebhook",
+    },
+    create: {
+      paymentApp: PaymentApp.PAYMNT,
+      secretKey: "PAYMNT_SECRET_HDFC",
+      bankName: BankName.HDFC,
+      webhookUrl: "http://localhost:3005/api/v1/hdfcWebhook",
+    },
+  });
+
+  await client.registeredApp.upsert({
+    where: {
+      paymentApp_bankName: {
+        paymentApp: PaymentApp.PAYTM,
+        bankName: BankName.KOTAK,
+      },
+    },
+    update: {
+      paymentApp: PaymentApp.PAYMNT,
+      secretKey: "PAYMNT_SECRET_KOTAK",
+      bankName: BankName.KOTAK,
+      webhookUrl: "http://localhost:3005/api/v1/kotakWebhook",
+    },
+    create: {
+      paymentApp: PaymentApp.PAYMNT,
+      secretKey: "PAYMNT_SECRET_KOTAK",
+      bankName: BankName.KOTAK,
+      webhookUrl: "http://localhost:3005/api/v1/kotakWebhook",
     },
   });
 }
