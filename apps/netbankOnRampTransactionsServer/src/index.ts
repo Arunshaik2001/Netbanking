@@ -1,6 +1,7 @@
 import prismaClient from "@repo/db/client";
 import { createClient } from "redis";
-import { TransactionPaymentPayload, TxItem } from "@repo/types/customTypes";
+import { SweeperTransactionPayload } from "@repo/types/customTypes";
+import { TxItem } from "@repo/types/customTypes";
 import { PaymentStatus } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import axios from "axios";
@@ -26,7 +27,7 @@ async function processTransaction(txJsonString: string) {
   const registeredAppPayload = jwt.verify(
     paymntToken,
     registeredPartnerDetails!.secretKey
-  ) as TransactionPaymentPayload;
+  ) as SweeperTransactionPayload;
 
   try {
     await prismaClient.$transaction(async (tx) => {
@@ -37,30 +38,29 @@ async function processTransaction(txJsonString: string) {
         data: {
           status: PaymentStatus.SUCCESS,
           date: new Date(),
+          transactionType: "OnRamp",
         },
       });
 
-      const netbankUserAccount =
-        await prismaClient.netbankingAccount.findUnique({
-          where: { userId: transaction!.netbankingUserId },
-        });
-
       await prismaClient.bankAccount.update({
         where: {
-          accountNumber: netbankUserAccount?.bankAccountId,
+          accountNumber: registeredAppPayload.bankAccountNumber,
         },
         data: {
           balance: {
-            decrement: registeredAppPayload.amount,
+            increment: registeredAppPayload.amount,
           },
         },
       });
     });
 
-    const res = await axios.post(registeredPartnerDetails!.webhookUrl, {
-      paymntToken: bankAppPaymentToken,
-      status: PaymentStatus.SUCCESS,
-    });
+    const res = await axios.post(
+      registeredPartnerDetails!.offRampWebhookEndpoint,
+      {
+        paymntToken: bankAppPaymentToken,
+        status: PaymentStatus.SUCCESS,
+      }
+    );
 
     if (res.status <= 300) {
       console.log("DONE");
@@ -81,7 +81,7 @@ async function main() {
   try {
     await redisClient.connect();
     while (true) {
-      const txItem = await redisClient.rPop("OFF_RAMP_TRANSACTIONS_QUEUE");
+      const txItem = await redisClient.rPop("ON_RAMP_TRANSACTIONS_QUEUE");
       if (txItem) {
         processTransaction(txItem);
       }

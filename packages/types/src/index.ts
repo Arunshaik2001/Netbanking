@@ -1,3 +1,5 @@
+import { BankName, PaymentApp } from "@prisma/client";
+import { JwtPayload } from "jsonwebtoken";
 import z from "zod";
 
 export const userLoginScheme = z.object({
@@ -14,3 +16,42 @@ export const debitTypeSchema = z.object({
 });
 
 export type userDebitType = z.infer<typeof debitTypeSchema>;
+
+export const creditTypeSchema = z.object({
+  amount: z.number(),
+  bankAccountNumber: z.number(),
+  bankName: z.string(),
+  paymentApp: z.string(),
+});
+
+export type userCreditType = z.infer<typeof creditTypeSchema>;
+export type sweeperCreditType = {
+  sweeperToken: string;
+  paymentApp: string;
+  bankName: string;
+};
+
+export interface SweeperTransactionPayload extends JwtPayload {
+  amount: number;
+  bankAccountNumber: number;
+}
+
+export interface TransactionPaymentPayload extends JwtPayload {
+  amount: number;
+  paymntUserId: number;
+}
+
+export type TxItem = {
+  paymntToken: string;
+  paymentApp: PaymentApp;
+  netbankApp: BankName;
+  bankAppPaymentToken: string;
+};
+
+export const userSignUpScheme = z.object({
+  accountNumber: z.string().length(7),
+  password: z.string().min(6),
+  bankName: z.string(),
+});
+
+export type usersignUpType = z.infer<typeof userSignUpScheme>;

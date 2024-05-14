@@ -38,15 +38,23 @@ model Transaction {
   netbankingAccount       NetbankingAccount @relation(fields: [netbankingUserId], references: [userId])
   netbankingUserId        Int
   paymentApp              PaymentApp?
+  transactionType         TransactionType
 }
 
 model RegisteredApp {
   paymentApp PaymentApp
   secretKey  String
+  bankSecretKey String
   bankName   BankName
   webhookUrl String
+  offRampWebhookEndpoint String
 
   @@id([paymentApp, bankName])
+}
+
+enum TransactionType {
+  OnRamp 
+  OffRamp
 }
 
 enum PaymentStatus {

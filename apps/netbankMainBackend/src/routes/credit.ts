@@ -1,29 +1,30 @@
 import { NextFunction, Request, Response, Router } from "express";
 import client from "@repo/db/client";
-import { userDebitType } from "@repo/types/customTypes";
+import { userCreditType, sweeperCreditType } from "@repo/types/customTypes";
 import {
   BankName,
   PaymentApp,
   PaymentStatus,
   TransactionType,
 } from "@prisma/client";
-import userAuthMiddleware from "../middlewares/userAuthMiddleware";
 import jwt from "jsonwebtoken";
-import { TransactionPaymentPayload } from "@repo/types/customTypes";
+import {
+  TransactionPaymentPayload,
+  SweeperTransactionPayload,
+} from "@repo/types/customTypes";
 import { createClient } from "redis";
 import axios from "axios";
 import prisma from "@repo/db/client";
 
-const debitRouter = Router();
+const creditRouter = Router();
 
-debitRouter.post(
+creditRouter.post(
   "/",
-  userAuthMiddleware,
   async function (req: Request, res: Response, next: NextFunction) {
-    const { paymentAppToken, paymentApp, netbankApp }: userDebitType = req.body;
+    const { sweeperToken, paymentApp, bankName }: sweeperCreditType = req.body;
 
     try {
-      const bankNameValue: BankName = netbankApp as BankName;
+      const bankNameValue: BankName = bankName as BankName;
       const paymentAppValue: PaymentApp = paymentApp as PaymentApp;
 
       const registeredApp = await client.registeredApp.findUnique({
@@ -42,48 +43,51 @@ debitRouter.post(
         return;
       }
 
-      const netBankingUser = await prisma.netbankingAccount.findUnique({
-        where: { userId: Number(res.locals.userId) },
-      });
-
       const registeredAppPayload = jwt.verify(
-        paymentAppToken,
+        sweeperToken,
         registeredApp.secretKey
-      ) as TransactionPaymentPayload;
+      ) as SweeperTransactionPayload;
 
-      const bankAccount = await prisma.bankAccount.findUnique({
-        where: { accountNumber: netBankingUser?.bankAccountId },
+      console.log(registeredAppPayload);
+
+      const netBankAccount = await prisma.netbankingAccount.findUnique({
+        where: {
+          bankAccountId: Number(registeredAppPayload.bankAccountNumber),
+        },
       });
 
-      if (bankAccount!.balance < registeredAppPayload.amount) {
-        res.status(411).json({ message: "User doesn't have enough money" });
+      if (!netBankAccount) {
+        res.status(411).json({ message: "No account found" });
         return;
       }
 
       await client.transaction.create({
         data: {
           paymentApp: paymentAppValue,
-          token: paymentAppToken,
+          token: sweeperToken,
           status: PaymentStatus.INITIATED,
           amount: registeredAppPayload.amount,
           date: new Date(),
-          netbankingUserId: Number(res.locals.userId),
-          transactionType: TransactionType.OffRamp,
+          netbankingUserId: netBankAccount.userId,
+          transactionType: TransactionType.OnRamp,
         },
       });
 
       const bankSignedToken = jwt.sign(
         {
           amount: registeredAppPayload.amount,
-          paymntUserId: registeredAppPayload.paymntUserId,
+          bankAccountNumber: registeredAppPayload.bankAccountNumber,
         },
         registeredApp!.bankSecretKey
       );
 
-      const webhookRes = await axios.post(registeredApp!.webhookUrl, {
-        paymntToken: bankSignedToken,
-        status: PaymentStatus.INITIATED,
-      });
+      const webhookRes = await axios.post(
+        registeredApp!.offRampWebhookEndpoint,
+        {
+          paymntToken: bankSignedToken,
+          status: PaymentStatus.INITIATED,
+        }
+      );
 
       if (webhookRes.status <= 300) {
         res.status(200).json({
@@ -97,9 +101,9 @@ debitRouter.post(
         await redisClient.connect();
 
         redisClient.lPush(
-          "OFF_RAMP_TRANSACTIONS_QUEUE",
+          "ON_RAMP_TRANSACTIONS_QUEUE",
           JSON.stringify({
-            paymntToken: paymentAppToken,
+            paymntToken: sweeperToken,
             paymentApp: paymentAppValue,
             netbankApp: bankNameValue,
             bankAppPaymentToken: bankSignedToken,
@@ -124,4 +128,4 @@ debitRouter.post(
   }
 );
 
-export default debitRouter;
+export default creditRouter;
