@@ -44,7 +44,7 @@ loginRouter.post(
       res.cookie("token", token, {
         maxAge: 5 * 60 * 1000,
         secure: false,
-        httpOnly: true,
+        sameSite: "lax",
       });
 
       res.status(200).json({

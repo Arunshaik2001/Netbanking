@@ -8,6 +8,7 @@ export default async function userAuthMiddleware(
   next: NextFunction
 ) {
   const token: string = req.cookies.token;
+  console.log(req.cookies);
 
   if (!token) {
     res.status(401).json({ message: "User Verification Failed" });

@@ -86,9 +86,10 @@ debitRouter.post(
       });
 
       if (webhookRes.status <= 300) {
+        console.log(`Webhook ${registeredApp!.webhookUrl} responded`);
         res.status(200).json({
           message:
-            "Requested of payment transfer initiated. will transfer shortly and notify",
+            "Request of payment transfer initiated. will transfer shortly and notify",
           registeredAppPayload,
         });
 
@@ -96,7 +97,7 @@ debitRouter.post(
 
         await redisClient.connect();
 
-        redisClient.lPush(
+        await redisClient.lPush(
           "OFF_RAMP_TRANSACTIONS_QUEUE",
           JSON.stringify({
             paymntToken: paymentAppToken,

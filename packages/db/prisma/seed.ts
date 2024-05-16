@@ -40,7 +40,27 @@ async function main() {
     create: {
       accountNumber: 7894561,
       balance: 2000000,
-      userName: "Arun Sk1",
+      userName: "Varun",
+    },
+  });
+
+  await client.bankAccount.upsert({
+    where: { accountNumber: 4561321 },
+    update: {},
+    create: {
+      accountNumber: 4561321,
+      balance: 3000000,
+      userName: "Rahul",
+    },
+  });
+
+  await client.bankAccount.upsert({
+    where: { accountNumber: 7891231 },
+    update: {},
+    create: {
+      accountNumber: 7891231,
+      balance: 300000,
+      userName: "Tarun",
     },
   });
 

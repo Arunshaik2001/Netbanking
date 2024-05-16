@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.13.0",
+    "@prisma/extension-pulse": "^1.0.2",
     "bcrypt": "^5.1.1"
   },
   "prisma": {

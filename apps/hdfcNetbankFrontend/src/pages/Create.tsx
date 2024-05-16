@@ -13,7 +13,7 @@ export default function Create() {
 
   const [password, setPassword] = useState("");
   const [showPasswordError, setShowPasswordError] = useState(false);
-  const [showDebitButton, setShowDebitButton] = useState(false);
+  const [showCreateButton, setShowCreateButton] = useState(false);
   const [loading, setLoading] = useState(false);
   const [netbankId, setNetbankId] = useState("");
 
@@ -29,7 +29,7 @@ export default function Create() {
     confirmPassword: "",
   });
 
-  async function debitMoney() {
+  async function createUser() {
     if (
       validInputMap.current.accountNumber != "" &&
       validInputMap.current.password != "" &&
@@ -62,7 +62,7 @@ export default function Create() {
   }
 
   function enableButton() {
-    setShowDebitButton(
+    setShowCreateButton(
       validInputMap.current.accountNumber != "" &&
         validInputMap.current.password != "" &&
         validInputMap.current.confirmPassword != ""
@@ -70,7 +70,7 @@ export default function Create() {
   }
 
   return (
-    <div className="relative w-full h-screen flex justify-center items-center bg-slate-500">
+    <div className="relative w-full h-screen flex justify-center items-center bg-slate-500 ">
       <ToastContainer />
       {loading && <Loader />}
       <div className="bg-white border-gray-500 p-[3%] rounded-lg flex flex-col justify-center items-center z-0">
@@ -128,11 +128,11 @@ export default function Create() {
           showError={showPasswordError}
         />
         <Button
-          label="Debit"
+          label="Create"
           onClick={() => {
-            debitMoney();
+            createUser();
           }}
-          enabled={showDebitButton}
+          enabled={showCreateButton}
         />
         {netbankId && (
           <div

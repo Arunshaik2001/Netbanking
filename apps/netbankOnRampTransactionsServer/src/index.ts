@@ -10,7 +10,8 @@ async function processTransaction(txJsonString: string) {
   const { paymntToken, paymentApp, netbankApp, bankAppPaymentToken }: TxItem =
     JSON.parse(txJsonString);
 
-  await new Promise((resolve) => setTimeout(resolve, 15000));
+  console.log(txJsonString);
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   console.log(txJsonString);
 

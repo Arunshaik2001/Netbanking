@@ -55,3 +55,14 @@ export const userSignUpScheme = z.object({
 });
 
 export type usersignUpType = z.infer<typeof userSignUpScheme>;
+
+type MessageType = "identifier" | "message";
+
+export type WebsocketTransactionPayload = {
+  type: MessageType;
+  content: {
+    data: {
+      [key: string]: string | number;
+    };
+  };
+};
