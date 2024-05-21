@@ -1,81 +1,30 @@
-# Turborepo starter
+# Netbanking App
 
-This is an official starter Turborepo.
+This is a fake netbanking app which supports ![Payment-Transfer Karo App](https://github.com/Arunshaik2001/Paymnt-Transfer-karo) for Onramping and Offramping money.
 
-## Using this example
+## High Level Design
 
-Run the following command:
+<img src=https://github.com/Arunshaik2001/Netbanking/assets/50947867/7610ff0e-4bbf-4baf-9f2c-c057fcc28392 height=600px />
 
-```sh
-npx create-turbo@latest
-```
+## Demo
 
-## What's inside?
+[Screencast from 21-05-24 04:34:34 PM IST.webm](https://github.com/Arunshaik2001/Netbanking/assets/50947867/157f1734-7536-4195-a21a-ade9dc6d4ee4)
 
-This Turborepo includes the following packages/apps:
+[Screencast from 21-05-24 04:39:41 PM IST.webm](https://github.com/Arunshaik2001/Netbanking/assets/50947867/4d872c05-4eea-45f5-8739-38198a087ce8)
 
-### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Features
+ 1. Create Netbanking Id provided you have bank account number you can use pre-added bank account numbers or you can add your own in db/prisma/seed.ts.
+ 2. OffRamp fake money from netbanking app.
+ 3. OnRamp fake money.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-### Utilities
+## Tech Stack
+ 1. Reactjs
+ 3. Websocket
+ 4. Express Server
+ 5. Redis as Queues
+ 6. Postgres
+ 7. Jwt Authentication.
 
-This Turborepo has some additional tools already setup for you:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
