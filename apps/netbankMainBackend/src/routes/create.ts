@@ -3,14 +3,11 @@ import { usersignUpType, userSignUpScheme } from "@repo/types/customTypes";
 import client from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { BankName } from "@prisma/client";
+import { generateRandom7DigitNumber } from "@repo/utils/utils";
+
 
 const signOutRouter = Router();
 
-function generateRandom7DigitNumber() {
-  const min = 1000000; // Minimum 7-digit number
-  const max = 9999999; // Maximum 7-digit number
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 signOutRouter.post(
   "/",
