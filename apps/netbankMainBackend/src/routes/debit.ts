@@ -21,6 +21,8 @@ debitRouter.post(
   userAuthMiddleware,
   async function (req: Request, res: Response, next: NextFunction) {
     const { paymentAppToken, paymentApp, netbankApp }: userDebitType = req.body;
+    console.log("DEBIT-------------");
+    console.log(req.body);
 
     try {
       const bankNameValue: BankName = netbankApp as BankName;
@@ -80,10 +82,14 @@ debitRouter.post(
         registeredApp!.bankSecretKey
       );
 
+      console.log(`BANKSIGNEDTOKEN ${bankSignedToken}`);
+
       const webhookRes = await axios.post(registeredApp!.webhookUrl, {
         paymntToken: bankSignedToken,
         status: PaymentStatus.INITIATED,
       });
+
+      console.log(`Webhook ${webhookRes.status} responded`);
 
       if (webhookRes.status <= 300) {
         console.log(`Webhook ${registeredApp!.webhookUrl} responded`);
@@ -93,7 +99,9 @@ debitRouter.post(
           registeredAppPayload,
         });
 
-        const redisClient = createClient();
+        const redisClient = createClient({
+          url: "redis://localhost:6379",
+        });
 
         await redisClient.connect();
 

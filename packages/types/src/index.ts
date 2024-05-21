@@ -34,6 +34,7 @@ export type sweeperCreditType = {
 export interface SweeperTransactionPayload extends JwtPayload {
   amount: number;
   bankAccountNumber: number;
+  paymntUserId: number;
 }
 
 export interface TransactionPaymentPayload extends JwtPayload {

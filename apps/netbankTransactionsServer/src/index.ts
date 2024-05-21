@@ -46,7 +46,7 @@ async function processTransaction(txJsonString: string) {
           where: { userId: transaction!.netbankingUserId },
         });
 
-      await prismaClient.bankAccount.update({
+      const bankAccount = await prismaClient.bankAccount.update({
         where: {
           accountNumber: netbankUserAccount?.bankAccountId,
         },
@@ -56,6 +56,8 @@ async function processTransaction(txJsonString: string) {
           },
         },
       });
+
+      console.log({ bankAccount });
     });
 
     const res = await axios.post(registeredPartnerDetails!.webhookUrl, {
@@ -119,8 +121,8 @@ async function processTransaction(txJsonString: string) {
 }
 
 function generateRandom7DigitNumber() {
-  const min = 1000000; // Minimum 7-digit number
-  const max = 9999999; // Maximum 7-digit number
+  const min = 1000000;
+  const max = 9999999;
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -133,6 +135,7 @@ async function main() {
     await redisClient.connect();
     while (true) {
       const txItem = await redisClient.rPop("OFF_RAMP_TRANSACTIONS_QUEUE");
+
       if (txItem) {
         processTransaction(txItem);
       }

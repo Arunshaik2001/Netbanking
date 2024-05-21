@@ -23,6 +23,8 @@ creditRouter.post(
   async function (req: Request, res: Response, next: NextFunction) {
     const { sweeperToken, paymentApp, bankName }: sweeperCreditType = req.body;
 
+    console.log(req.body);
+
     try {
       const bankNameValue: BankName = bankName as BankName;
       const paymentAppValue: PaymentApp = paymentApp as PaymentApp;
@@ -77,6 +79,7 @@ creditRouter.post(
         {
           amount: registeredAppPayload.amount,
           bankAccountNumber: registeredAppPayload.bankAccountNumber,
+          paymntUserId: registeredAppPayload.paymntUserId,
         },
         registeredApp!.bankSecretKey
       );
@@ -92,7 +95,7 @@ creditRouter.post(
       if (webhookRes.status <= 300) {
         res.status(200).json({
           message:
-            "Requested of payment transfer initiated. will transfer shortly and notify",
+            "Request of payment transfer initiated. will transfer shortly and notify",
           registeredAppPayload,
         });
 
@@ -100,7 +103,7 @@ creditRouter.post(
 
         await redisClient.connect();
 
-        redisClient.lPush(
+        await redisClient.lPush(
           "ON_RAMP_TRANSACTIONS_QUEUE",
           JSON.stringify({
             paymntToken: sweeperToken,

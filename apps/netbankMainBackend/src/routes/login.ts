@@ -9,6 +9,8 @@ loginRouter.post(
   "/",
   async function (req: Request, res: Response, next: NextFunction) {
     const { userId, password }: userLoginType = req.body;
+    console.log("LOGIN---------------------");
+    console.log(req.body);
 
     try {
       const result = userLoginScheme.parse({ userId, password });

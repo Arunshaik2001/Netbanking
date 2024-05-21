@@ -14,7 +14,6 @@ export default function Debit() {
   const [showDebitButton, setShowDebitButton] = useState(false);
   const [loading, setLoading] = useState(false);
   let toastId = useRef<Id | undefined>(undefined);
-  const [showDebitButton1, setShowDebitButton1] = useState(false);
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -102,6 +101,8 @@ export default function Debit() {
             withCredentials: true,
           }
         );
+
+        console.log("------LoginResponse---------");
 
         console.log(loginResponse);
 
