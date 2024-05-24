@@ -5,7 +5,9 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "dev:docker": "npm run dev:prisma && npm run dev",
+    "dev:prisma": "cd ./packages/db && npx prisma migrate dev"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
