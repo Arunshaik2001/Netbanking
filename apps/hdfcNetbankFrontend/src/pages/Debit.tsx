@@ -78,7 +78,7 @@ export default function Debit() {
       }
     };
 
-    ws.onclose = (closeEvent) => {
+    ws.onclose = () => {
       console.log("closing connection");
       setLoading(false);
     };
@@ -131,9 +131,9 @@ export default function Debit() {
         const err = error as AxiosError;
         toast.dismiss();
         if (err.response && err.response.data) {
-          toastId.current = toast.error(
-            JSON.stringify(err.response!.data.message)
-          );
+          const { message } = err.response!.data! as { message: string };
+
+          toastId.current = toast.error(JSON.stringify(message));
         } else {
           toastId.current = toast.error("Some Error Occurred");
         }

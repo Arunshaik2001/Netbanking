@@ -54,7 +54,9 @@ export default function Create() {
       } catch (error) {
         console.log(error);
         const err = error as AxiosError;
-        toast.error(err.response!.data!.message);
+
+        const { message } = err.response!.data! as { message: string };
+        toast.error(message);
       } finally {
         setLoading(false);
       }

@@ -1,4 +1,11 @@
-import { HTMLInputTypeAttribute, forwardRef, useEffect, useState } from "react";
+import {
+  HTMLInputTypeAttribute,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -34,17 +41,21 @@ const TextFieldWithLabel = forwardRef<
     const [showPassword, setShowPassword] = useState(false);
     const inputType = showPassword ? "text" : type;
 
+    const internalRef = useRef<HTMLInputElement | null>(null);
+    useImperativeHandle(ref, () => internalRef.current!);
+
     const handleInput = () => {
-      if (ref && ref.current) {
+      const currentRef = internalRef.current;
+      if (currentRef) {
         if (onTextChange) {
-          onTextChange(ref!.current.value.trim());
+          onTextChange(currentRef.value.trim());
         }
-        if (!ref.current.checkValidity()) {
+        if (!currentRef.checkValidity()) {
           setErrorMessage(errorText);
           onValidText("");
         } else {
           setErrorMessage("");
-          onValidText(ref!.current.value.trim());
+          onValidText(currentRef.value.trim());
         }
       }
     };

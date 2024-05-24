@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "build": "tsup",
+    "dev": "tsup --watch --onSuccess \"node dist/index.js\""
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/ws": "^8.5.10",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "tsup": "^8.0.2"
   }
 }
