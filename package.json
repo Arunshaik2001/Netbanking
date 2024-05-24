@@ -2,12 +2,13 @@
   "name": "Netbanking",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "npm run prisma-generate && turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "npm run dev:prisma && npm run dev",
-    "dev:prisma": "cd ./packages/db && npx prisma migrate dev"
+    "dev:prisma": "cd packages/db && npx prisma migrate dev && npx prisma db seed",
+    "prisma-generate": "cd packages/db && npx prisma generate"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
