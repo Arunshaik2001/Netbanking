@@ -18,8 +18,8 @@ jobs:
           echo "${{ secrets.DATABASE_URL }}" > .env
           cat .env
 
-    # - name: Build image
-    #     run: docker-compose --env-file .env -f docker-compose.yml build
+    - name: Build image
+      run: docker-compose --env-file .env -f docker-compose.yml build
   
 
     # - name: Log in to Docker Hub
