@@ -7,7 +7,8 @@ import creditRouter from "./routes/credit";
 import createRouter from "./routes/create";
 import startWebsocketServer from "./websocketServer";
 
-dotenv.config();
+dotenv.config({ path: __dirname + "/../../.env" })
+
 
 const app = express();
 

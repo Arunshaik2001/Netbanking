@@ -1,11 +1,13 @@
 import { createClient } from "redis";
 import processTransaction from "./txProccessor";
+import dotenv from 'dotenv'
 
+dotenv.config({ path: __dirname + "/../../.env" })
 
 async function main() {
   console.log("Starting Transaction Handler");
   const redisClient = createClient({
-    url: "redis://localhost:6379",
+    url: process.env.REDIS_URL || "redis://localhoscdt:6379",
   });
   try {
     await redisClient.connect();

@@ -27,10 +27,11 @@ loginRouter.post(
         return;
       }
 
-      const matching: boolean = await bcrypt.compare(
+      let matching: boolean = bcrypt.compareSync(
         password,
-        netbankingUser!.password
+        netbankingUser!.password,
       );
+
 
       if (!matching) {
         res.status(411).json({

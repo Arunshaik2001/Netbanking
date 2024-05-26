@@ -41,10 +41,8 @@ const TextFieldWithLabel = forwardRef<
     const [showPassword, setShowPassword] = useState(false);
     const inputType = showPassword ? "text" : type;
 
-    const internalRef = useRef<HTMLInputElement | null>(null);
-    useImperativeHandle(ref, () => internalRef.current!);
-
     const handleInput = () => {
+      const internalRef = ref! as React.RefObject<HTMLInputElement>;
       const currentRef = internalRef.current;
       if (currentRef) {
         if (onTextChange) {
