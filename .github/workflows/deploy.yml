@@ -3,9 +3,9 @@ name: Build and Deploy to Docker Hub
 on:
   push:
     branches:
-      - master
+      - main
 
-jobs:
+jobs: 
   build-and-push:
     runs-on: ubuntu-latest
     steps:
