@@ -1,5 +1,7 @@
 FROM node:20
 
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 # add turborepo
 RUN npm install -g turbo

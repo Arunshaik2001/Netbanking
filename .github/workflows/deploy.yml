@@ -30,10 +30,15 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push image to DO Container Registry
-      run: docker-compose -f docker-compose.yml push
-      env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: arunshaik2001/netbanking:latest
+        build-args: |
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
 
     - name: Verify Pushed Image
       run: docker pull arunshaik2001/netbanking:latest  
