@@ -32,7 +32,9 @@ jobs:
 
     - name: Push image to DO Container Registry
       run: docker-compose -f docker-compose.yml push
+      env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     - name: Verify Pushed Image
       run: docker pull arunshaik2001/netbanking:latest  
-      
+
