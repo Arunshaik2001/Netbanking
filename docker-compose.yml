@@ -14,27 +14,13 @@ services:
       - /app/node_modules/
     restart: on-failure
     environment:
-      - DATABASE_URL=postgresql://postgres:rised@postgres:5432/mydb?schema=public
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - common
-    depends_on:
-      - redis
 
-  redis:
-    image: redis:latest
-    container_name: redis_client
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis:/data
-    restart: always
-    networks:
-      - common
+
 
 networks:
   common:
     external:
       name: common
-
-volumes:
-  redis:
