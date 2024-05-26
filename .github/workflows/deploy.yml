@@ -20,6 +20,8 @@ jobs:
 
     - name: Build image
       run: docker-compose --env-file .env -f docker-compose.yml build
+      env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
   
 
     # - name: Log in to Docker Hub
