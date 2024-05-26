@@ -1,6 +1,5 @@
-FROM node:20-alpine
+FROM node:20
 
-RUN apk add --no-cache libc6-compat
 
 # add turborepo
 RUN npm install -g turbo

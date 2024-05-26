@@ -2,16 +2,56 @@ import {
   BankName,
   PaymentApp,
 } from "@prisma/client";
+import bcrypt from "bcrypt";
 import prisma from '@repo/db/client'
 
 async function main() {
+  const netbankingUser = {
+    userId: 1234567,
+    bankName: BankName.HDFC,
+    password: bcrypt.hashSync("1234567", 10),
+  };
+
+  await prisma.bankAccount.upsert({
+    where: { accountNumber: 1234567 },
+    update: {},
+    create: {
+      accountNumber: 1234567,
+      balance: 1000000,
+      userName: "Arun Sk",
+      netbankAccount: {
+        create: netbankingUser,
+      },
+    },
+  });
+
+
+  await prisma.bankAccount.upsert({
+    where: { accountNumber: 7894561 },
+    update: {},
+    create: {
+      accountNumber: 7894561,
+      balance: 2000000,
+      userName: "Varun",
+    },
+  });
+
+  await prisma.bankAccount.upsert({
+    where: { accountNumber: 7894562 },
+    update: {},
+    create: {
+      accountNumber: 7894562,
+      balance: 2000000,
+      userName: "Tarun",
+    },
+  });
 
 
   await prisma.registeredApp.upsert({
     where: {
       paymentApp_bankName: {
         paymentApp: PaymentApp.PAYMNT,
-        bankName: BankName.HDFC
+        bankName: BankName.HDFC,
       },
     },
     update: {
@@ -19,18 +59,18 @@ async function main() {
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "http://localhost:3005/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "http://turbo:3005/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "http://localhost:3005/api/v1/transaction/hdfcWebhook/offRamp",
+        "http://turbo:3005/api/v1/transaction/hdfcWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "http://localhost:3005/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "http://turbo:3005/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "http://localhost:3005/api/v1/transaction/hdfcWebhook/offRamp",
+        "http://turbo:3005/api/v1/transaction/hdfcWebhook/offRamp",
     },
   });
 
@@ -47,16 +87,16 @@ async function main() {
       bankName: BankName.KOTAK,
       bankSecretKey: "KOTAK_SECRET",
       webhookUrl:
-        "http://localhost:3005/api/v1/transaction/kotakWebhook/offRamp",
+        "http://turbo:3005/api/v1/transaction/kotakWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_KOTAK",
       bankSecretKey: "KOTAK_SECRET",
       bankName: BankName.KOTAK,
-      webhookUrl: "http://localhost:3005/api/v1/transaction/kotakWebhook",
+      webhookUrl: "http://turbo:3005/api/v1/transaction/kotakWebhook",
       offRampWebhookEndpoint:
-        "http://localhost:3005/api/v1/transaction/kotakWebhook/offRamp",
+        "http://turbo:3005/api/v1/transaction/kotakWebhook/offRamp",
     },
   });
 }
