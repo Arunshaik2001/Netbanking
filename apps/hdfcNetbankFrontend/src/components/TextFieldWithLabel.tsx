@@ -2,8 +2,6 @@ import {
   HTMLInputTypeAttribute,
   forwardRef,
   useEffect,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
