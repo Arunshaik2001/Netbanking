@@ -22,5 +22,5 @@ services:
 
 networks:
   common:
-    external:
+      driver: bridge
       name: common
