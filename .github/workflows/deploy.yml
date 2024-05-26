@@ -35,3 +35,4 @@ jobs:
 
     - name: Verify Pushed Image
       run: docker pull arunshaik2001/netbanking:latest  
+      
