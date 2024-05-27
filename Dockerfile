@@ -5,7 +5,7 @@ RUN apt-get install -y build-essential make automake gcc g++ cpp libkrb5-dev lib
 
 
 # Install NodeJS
-RUN apt-get update && apt-get install -y nodejs && apt-get install -y npm
+RUN apt-get update && apt-get install -y apt-utils && apt-get install -y nodejs && apt-get install -y npm && apt-get install -y python3
 RUN npm install -g node-gyp
 
 ARG DATABASE_URL
@@ -22,6 +22,8 @@ COPY  ["package-lock.json", "package.json", "./"]
 COPY . .
 
 RUN npm install
+
+RUN npm rebuild bcrypt --build-from-source
 
 EXPOSE 4000 5173
 
