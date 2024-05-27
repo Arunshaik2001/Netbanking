@@ -43,3 +43,37 @@ jobs:
     - name: Verify Pushed Image
       run: docker pull arunshaik2001/netbanking:latest  
 
+    - name: Create dir in Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          # Create composefiles directory if it doesn't exist
+          mkdir -p /composefiles
+          # Create or update the .env file with DATABASE_URL
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > /composefiles/.env
+
+
+    # - name: Copy docker-compose file to Server
+    #   uses: appleboy/scp-action@v0.1.3
+    #   with:
+    #     host: ${{ secrets.SSH_HOST }}
+    #     username: ${{ secrets.SSH_USERNAME }}
+    #     key: ${{ secrets.SSH_KEY }}
+    #     source: "docker-compose.netbanking.yml"
+    #     target: "/composefiles/docker-compose.netbanking.yml"
+
+    # - name: Update env file and run docker-compose
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #   host: ${{ secrets.SSH_HOST }}
+    #   username: ${{ secrets.SSH_USERNAME }}
+    #   key: ${{ secrets.SSH_KEY }}
+    #   script: |
+          
+    #       # Navigate to the composefiles directory and run docker-compose in detached mode
+    #       # cd /composefiles
+    #       # docker-compose --env-file ./.env -f docker-compose.netbanking.yml up -d  
+
