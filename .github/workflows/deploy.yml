@@ -45,7 +45,6 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > "$HOME/composefiles/.env"
 
 
-
     - name: Copy docker-compose file to Server
       uses: appleboy/scp-action@v0.1.3
       with:
