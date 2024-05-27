@@ -3,6 +3,7 @@ version: "3.8"
 services:
   netbanking:
     image: arunshaik2001/netbanking:latest
+    container_name: netbanking
     ports:
       - "4000:4000"
       - "5173:5173"

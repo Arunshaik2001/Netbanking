@@ -52,17 +52,21 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         source: "docker-compose.netbanking.yml"
-        target: "$HOME/composefiles/docker-compose.netbanking.yml"
+        target: "$HOME/composefiles/"
 
-    # - name: Update env file and run docker-compose
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #   host: ${{ secrets.SSH_HOST }}
-    #   username: ${{ secrets.SSH_USERNAME }}
-    #   key: ${{ secrets.SSH_KEY }}
-    #   script: |
-          
-    #       # Navigate to the composefiles directory and run docker-compose in detached mode
-    #       # cd /composefiles
-    #       # docker-compose --env-file ./.env -f docker-compose.netbanking.yml up -d  
+    - name: run docker-compose
+      uses: appleboy/ssh-action@master
+      with:
+      host: ${{ secrets.SSH_HOST }}
+      username: ${{ secrets.SSH_USERNAME }}
+      key: ${{ secrets.SSH_KEY }}
+      script: |
+          # Stop the container if it is running
+          if [ "$(docker ps -q -f name=netbanking)" ]; then
+              docker stop netbanking
+              docker rm netbanking
+          fi
+          # Navigate to the composefiles directory and run docker-compose in detached mode
+          cd "$HOME/composefiles"
+          docker-compose --env-file ./.env -f docker-compose.netbanking.yml up -d  
 
