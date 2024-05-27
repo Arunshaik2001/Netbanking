@@ -41,6 +41,7 @@ jobs:
           # Create composefiles directory if it doesn't exist
           mkdir -p "$HOME/composefiles"
           # Create or update the .env file with DATABASE_URL
+          touch /composefiles/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > /composefiles/.env
 
 
