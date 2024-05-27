@@ -1,4 +1,12 @@
-FROM node:20
+FROM ubuntu:latest
+
+RUN apt update 
+RUN apt-get install -y build-essential make automake gcc g++ cpp libkrb5-dev libc6-dev man-db autoconf pkg-config 
+
+
+# Install NodeJS
+RUN apt-get update && apt-get install -y nodejs && apt-get install -y npm
+RUN npm install -g node-gyp
 
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}

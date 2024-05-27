@@ -18,8 +18,6 @@ services:
     networks:
       - common
 
-
-
 networks:
   common:
     external:
