@@ -1,0 +1,30 @@
+name: Clone to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            TARGET_DIR=$HOME/paymnt
+            REPO_URL=https://github.com/Arunshaik2001/Paymnt-Transfer-karo.git
+            BRANCH=main
+            
+            if [ -d "$TARGET_DIR" ]; then
+              rm -rf "$TARGET_DIR"
+            fi
+            git clone -b $BRANCH $REPO_URL $TARGET_DIR

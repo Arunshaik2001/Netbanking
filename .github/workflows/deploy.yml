@@ -67,6 +67,7 @@ jobs:
           docker pull arunshaik2001/netbanking:latest
           docker stop netbanking || true
           docker rm netbanking || true
+          docker network rm common
           docker network create common
           docker run -d --name netbanking -p 5173:5173 -p 4000:4000 --env-file ./.env arunshaik2001/netbanking:latest
 
