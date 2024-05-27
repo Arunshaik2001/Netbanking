@@ -61,12 +61,12 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          # Stop the container if it is running
-          if [ "$(docker ps -q -f name=netbanking)" ]; then
-              docker stop netbanking
-              docker rm netbanking
-          fi
+
           # Navigate to the composefiles directory and run docker-compose in detached mode
           cd "$HOME/composefiles"
-          docker-compose --env-file ./.env -f docker-compose.netbanking.yml up -d  
+          docker pull arunshaik2001/netbanking:latest
+          docker stop netbanking || true
+          docker rm netbanking || true
+          docker create network common
+          docker run -d --name netbanking -p 5173:5173 -p 4000:4000 --env-file ./.env arunshaik2001/netbanking:latest
 
