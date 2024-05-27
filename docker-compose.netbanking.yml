@@ -2,10 +2,7 @@ version: "3.8"
 
 services:
   netbanking:
-    container_name: netbanking-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arunshaik2001/netbanking:latest
     ports:
       - "4000:4000"
       - "5173:5173"

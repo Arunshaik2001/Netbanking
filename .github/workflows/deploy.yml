@@ -19,7 +19,7 @@ jobs:
           cat .env
 
     - name: Build image
-      run: docker-compose -f docker-compose.yml build
+      run: docker-compose -f docker-compose.netbanking.yml build
       env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
   
