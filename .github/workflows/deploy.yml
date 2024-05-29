@@ -12,62 +12,62 @@ jobs:
     - name: Check Out Repo
       uses: actions/checkout@v4
 
-    # - name: Log in to Docker Hub
-    #   uses: docker/login-action@v3
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: arunshaik2001/netbanking:latest
+        build-args: |
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+
+    - name: Verify Pushed Image
+      run: docker pull arunshaik2001/netbanking:latest  
+
+    # - name: Create dir in Server
+    #   uses: appleboy/ssh-action@master
     #   with:
-    #     username: ${{ secrets.DOCKER_USERNAME }}
-    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     host: ${{ secrets.SSH_HOST }}
+    #     username: ${{ secrets.SSH_USERNAME }}
+    #     key: ${{ secrets.SSH_KEY }}
+    #     script: |
+    #       # Create composefiles directory if it doesn't exist
+    #       mkdir -p "$HOME/composefiles"
+    #       # Create or update the .env file with DATABASE_URL
+    #       touch "$HOME/composefiles/.env"
+    #       echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > "$HOME/composefiles/.env"
 
-    # - name: Build and Push
-    #   uses: docker/build-push-action@v5
+
+    # - name: Copy docker-compose file to Server
+    #   uses: appleboy/scp-action@v0.1.3
     #   with:
-    #     context: .
-    #     file: ./Dockerfile
-    #     push: true
-    #     tags: arunshaik2001/netbanking:latest
-    #     build-args: |
-    #       DATABASE_URL=${{ secrets.DATABASE_URL }}
+    #     host: ${{ secrets.SSH_HOST }}
+    #     username: ${{ secrets.SSH_USERNAME }}
+    #     key: ${{ secrets.SSH_KEY }}
+    #     source: "docker-compose.netbanking.yml"
+    #     target: "$HOME/composefiles/"
 
-    # - name: Verify Pushed Image
-    #   run: docker pull arunshaik2001/netbanking:latest  
+    # - name: run docker-compose
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.SSH_HOST }}
+    #     username: ${{ secrets.SSH_USERNAME }}
+    #     key: ${{ secrets.SSH_KEY }}
+    #     script: |
 
-    - name: Create dir in Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          # Create composefiles directory if it doesn't exist
-          mkdir -p "$HOME/composefiles"
-          # Create or update the .env file with DATABASE_URL
-          touch "$HOME/composefiles/.env"
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > "$HOME/composefiles/.env"
-
-
-    - name: Copy docker-compose file to Server
-      uses: appleboy/scp-action@v0.1.3
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "docker-compose.netbanking.yml"
-        target: "$HOME/composefiles/"
-
-    - name: run docker-compose
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-
-          # Navigate to the composefiles directory and run docker-compose in detached mode
-          cd "$HOME/composefiles"
-          docker pull arunshaik2001/netbanking:latest
-          docker stop netbanking || true
-          docker rm netbanking || true
-          docker network rm common
-          docker network create common
-          docker run -d --name netbanking -p 5173:5173 -p 4000:4000 --env-file ./.env arunshaik2001/netbanking:latest
+    #       # Navigate to the composefiles directory and run docker-compose in detached mode
+    #       cd "$HOME/composefiles"
+    #       docker pull arunshaik2001/netbanking:latest
+    #       docker stop netbanking || true
+    #       docker rm netbanking || true
+    #       docker network rm common
+    #       docker network create common
+    #       docker run -d --name netbanking -p 5173:5173 -p 4000:4000 --env-file ./.env arunshaik2001/netbanking:latest
 

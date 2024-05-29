@@ -21,10 +21,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             TARGET_DIR=$HOME/paymnt
-            REPO_URL=https://github.com/Arunshaik2001/Paymnt-Transfer-karo.git
+            REPO_URL=https://github.com/Arunshaik2001/Netbanking.git
             BRANCH=main
             
             if [ -d "$TARGET_DIR" ]; then
               rm -rf "$TARGET_DIR"
             fi
             git clone -b $BRANCH $REPO_URL $TARGET_DIR
+            npm install

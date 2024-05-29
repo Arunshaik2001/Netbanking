@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@prisma/client": "^5.13.0",
+    "@vercel/speed-insights": "^1.0.11",
     "jsonwebtoken": "^9.0.2",
     "prisma": "^5.13.0",
     "react": "^18.2.0",
