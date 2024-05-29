@@ -28,4 +28,6 @@ jobs:
               rm -rf "$TARGET_DIR"
             fi
             git clone -b $BRANCH $REPO_URL $TARGET_DIR
+            cd $TARGET_DIR
             npm install
+            npm install -g pm2
