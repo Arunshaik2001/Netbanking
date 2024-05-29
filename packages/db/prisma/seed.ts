@@ -47,6 +47,28 @@ async function main() {
   });
 
 
+  await prisma.bankAccount.upsert({
+    where: { accountNumber: 4561234 },
+    update: {},
+    create: {
+      accountNumber: 4561234,
+      balance: 3000000,
+      userName: "Rohan",
+    },
+  });
+
+
+  await prisma.bankAccount.upsert({
+    where: { accountNumber: 1237894 },
+    update: {},
+    create: {
+      accountNumber: 1237894,
+      balance: 2000000,
+      userName: "Rakesh",
+    },
+  });
+
+
   await prisma.registeredApp.upsert({
     where: {
       paymentApp_bankName: {
@@ -59,18 +81,18 @@ async function main() {
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "http://turbo:3005/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "http://turbo:3005/api/v1/transaction/hdfcWebhook/offRamp",
+        "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "http://turbo:3005/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "http://turbo:3005/api/v1/transaction/hdfcWebhook/offRamp",
+        "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook/offRamp",
     },
   });
 
@@ -86,17 +108,18 @@ async function main() {
       secretKey: "PAYMNT_SECRET_KOTAK",
       bankName: BankName.KOTAK,
       bankSecretKey: "KOTAK_SECRET",
-      webhookUrl:
-        "http://turbo:3005/api/v1/transaction/kotakWebhook/offRamp",
+      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook",
+      offRampWebhookEndpoint:
+        "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_KOTAK",
       bankSecretKey: "KOTAK_SECRET",
       bankName: BankName.KOTAK,
-      webhookUrl: "http://turbo:3005/api/v1/transaction/kotakWebhook",
+      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook",
       offRampWebhookEndpoint:
-        "http://turbo:3005/api/v1/transaction/kotakWebhook/offRamp",
+        "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook/offRamp",
     },
   });
 }

@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            TARGET_DIR=$HOME/paymnt
+            TARGET_DIR=$HOME/netbanking
             REPO_URL=https://github.com/Arunshaik2001/Netbanking.git
             BRANCH=main
             
