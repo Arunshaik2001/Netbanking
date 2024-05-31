@@ -4,6 +4,7 @@
   "scripts": {
     "build": "npm run prisma-generate && turbo build",
     "dev": "turbo dev",
+    "dev:hdfc": "turbo dev --filter=hdfcnetbankfrontend",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "npm run dev:prisma && npm run dev",
