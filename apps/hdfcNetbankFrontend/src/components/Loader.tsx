@@ -1,9 +1,9 @@
 export default function Loader() {
   return (
-    <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-10">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-10">
       <div
         role="status"
-        className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+        className="flex justify-center items-center"
       >
         <svg
           aria-hidden="true"
