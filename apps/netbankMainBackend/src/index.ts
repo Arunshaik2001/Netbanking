@@ -18,7 +18,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:3000", "https://netbanking.dev-boi.com", "https://paymnt.dev-boi.com"],
+    origin: ["http://localhost:5173", "http://localhost:3000", "https://netbanking.dev-boi.com", "https://paymntapp.dev-boi.com"],
     credentials: true,
   })
 );
