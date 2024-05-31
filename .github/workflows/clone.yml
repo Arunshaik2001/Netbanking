@@ -29,6 +29,5 @@ jobs:
             fi
             git clone -b $BRANCH $REPO_URL $TARGET_DIR
             cd $TARGET_DIR
-            
             npm install
             npx pm2 start ecosystem.config.js
