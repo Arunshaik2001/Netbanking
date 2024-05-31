@@ -7,8 +7,6 @@ import creditRouter from "./routes/credit";
 import createRouter from "./routes/create";
 import startWebsocketServer from "./websocketServer";
 import http from 'http';
-import https from 'https';
-import fs from 'fs'
 
 
 dotenv.config({ path: __dirname + "/../../.env" })
@@ -31,24 +29,7 @@ app.use("/api/v1/create", createRouter);
 
 
 
-let server: http.Server | https.Server;
-
-try {
-  const privateKey = fs.readFileSync('/etc/letsencrypt/live/netbankingbe.dev-boi.com/privkey.pem', 'utf8');
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/netbankingbe.dev-boi.com/fullchain.pem', 'utf8');
-
-  const credentials = {
-    key: privateKey,
-    cert: certificate,
-  };
-
-  server = https.createServer(credentials, app);
-  console.log('HTTPS server created');
-} catch (error) {
-  console.error('Failed to read SSL certificates, falling back to HTTP:', error);
-  server = http.createServer(app);
-  console.log('HTTP server created');
-}
+let server: http.Server = http.createServer(app);
 
 startWebsocketServer(server);
 
