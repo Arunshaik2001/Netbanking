@@ -14,7 +14,7 @@ export default function Home() {
           acting as Bank Frontend to OnRamp and OffRamp fake money.
         </div>
         <div className="text-sm font-regular py-5">
-          Only /debit , /create and /registerApp are working
+          Only /debit?token=VALUE&bankName=VALUE&paymentApp=VALUE and /createNetbanking are working
         </div>
       </div>
     </div>
