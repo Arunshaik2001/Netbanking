@@ -72,3 +72,9 @@ module.exports = {
  npm run dev:hdfcnetbankfrontend
 ```
 
+### For dummy data
+[seed.ts](https://github.com/Arunshaik2001/Netbanking/blob/main/packages/db/prisma/seed.ts))
+
+You can run in the packages/db folder
+```sh
+ npx prisma db seed
