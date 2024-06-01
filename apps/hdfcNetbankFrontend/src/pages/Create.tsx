@@ -79,7 +79,7 @@ export default function Create() {
         <div className="font-bold text-2xl pb-5">Create Netbanking Account</div>
         <TextFieldWithLabel
           label="Enter Bank Account Number"
-          placeholderText="Enter bank account number..."
+          placeholderText="Dummy account: 4561234"
           ref={bankAccountRef}
           errorText="Please enter 7 digits bank account number."
           pattern="^\d{7,7}$"

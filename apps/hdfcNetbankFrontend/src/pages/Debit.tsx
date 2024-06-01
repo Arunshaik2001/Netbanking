@@ -165,7 +165,7 @@ export default function Debit() {
             </div>
             <TextFieldWithLabel
               label="Enter UserId"
-              placeholderText="Enter User Id..."
+              placeholderText="Dummy User: 1234567"
               ref={userIdAccountRef}
               errorText="Please enter 7 digits user id."
               pattern="^\d{7,7}$"
@@ -176,7 +176,7 @@ export default function Debit() {
             />
             <TextFieldWithLabel
               label="Enter Password"
-              placeholderText="Enter Password..."
+              placeholderText="Dummy Pass: 1234567"
               ref={passwordRef}
               errorText="Please enter password minimum 6 length."
               type="password"
