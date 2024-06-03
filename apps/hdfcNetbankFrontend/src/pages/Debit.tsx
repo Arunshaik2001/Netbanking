@@ -99,6 +99,8 @@ export default function Debit() {
           },
           {
             withCredentials: true,
+            timeout: 5000,
+            timeoutErrorMessage: 'Timed Out. Ec2 instance is stopped. Sorry for inconvenience.'
           }
         );
 
@@ -128,17 +130,24 @@ export default function Debit() {
           toastId.current = toast.error(response.data.message);
         }
       } catch (error) {
-        const err = error as AxiosError;
         toast.dismiss();
-        if (err.response && err.response.data) {
-          const { message } = err.response!.data! as { message: string };
+        if (axios.isAxiosError(error)) {
+          toastId.current = toast.error("Some Error Occurred: " + error.message);
+        }
+        else{
+          const err = error as AxiosError;
 
-          toastId.current = toast.error(JSON.stringify(message));
-        } else {
-          toastId.current = toast.error("Some Error Occurred");
+          
+          if (err.response && err.response.data) {
+            const { message } = err.response!.data! as { message: string };
+
+            toastId.current = toast.error(JSON.stringify(message));
+          } else {
+            toastId.current = toast.error("Some Error Occurred");
+          }
+          
         }
         setLoading(false);
-      } finally {
       }
     }
   }
@@ -157,7 +166,7 @@ export default function Debit() {
     <div className="relative w-full h-screen flex justify-center items-center bg-slate-500 ">
       <ToastContainer />
       {loading && <Loader />}
-      <div className="bg-white border-gray-500 p-[3%] rounded-lg flex flex-col justify-center items-center z-0">
+      <div className="bg-white md:w-[60%] m-2 border-gray-500 p-[3%] rounded-lg flex flex-col justify-center items-center z-0">
         {allImpQuery ? (
           <>
             <div className="font-bold text-2xl pb-5">
