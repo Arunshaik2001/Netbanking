@@ -73,7 +73,8 @@ module.exports = {
 ```
 
 ### Run Locally using docker
-docker setup is done in branch [**docker-setup**](https://github.com/Arunshaik2001/Netbanking/tree/docker-setup))
+docker setup is done in branch [**docker-setup**](https://github.com/Arunshaik2001/Netbanking/tree/docker-setup)
+
 [Docker setup branch](https://github.com/Arunshaik2001/Netbanking/tree/docker-setup#with-docker)
 
 ### For dummy data
