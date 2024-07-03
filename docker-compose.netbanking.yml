@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   netbanking:
-    image: arunshaik2001/netbanking:latest
+    image: arunshaik2001/netbanking:docker
     container_name: netbanking
     ports:
       - "4000:4000"
@@ -11,8 +11,6 @@ services:
       - ./:/app/
       - /app/node_modules/
     restart: on-failure
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
     networks:
       - common
 

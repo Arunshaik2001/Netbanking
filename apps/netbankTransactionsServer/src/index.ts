@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import processTransaction from "./txProccessor";
 import dotenv from 'dotenv'
 
-dotenv.config({ path: __dirname + "/../../.env" })
+dotenv.config({ path: __dirname + "/../../../.env" })
 
 
 async function main() {

@@ -8,9 +8,9 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "npm run dev:prisma && npm run dev",
-    "dev:prisma": "cd packages/db && npx prisma migrate dev && npx prisma db seed",
+    "dev:prisma": "cd packages/db && npm run prisma:migrate && npm run prisma:seed",
     "prisma-generate": "cd packages/db && npx prisma generate",
-    "docker-compose": "docker-compose --env-file ./packages/db/.env -f docker-compose.netbanking.yml up"
+    "docker-compose": "docker-compose --env-file ./.env -f docker-compose.netbanking.yml up"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

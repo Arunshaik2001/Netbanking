@@ -36,7 +36,9 @@ This is a fake netbanking app which supports ![Payment-Transfer Karo App](https:
  2. On push to main branch it will be pushed docker image.
  3. On push to main branch it will copy main branch to ec2 server and start the nodejs apps.
 
-## Set up
+## Set up Locally
+
+### Without docker
 
 ```js
 // Make Sure You have env.js created on root folder where you have both netbanking and paymnt repo.
@@ -71,6 +73,42 @@ module.exports = {
  npx pm2 start ecosystem.config.js
  npm run dev:hdfcnetbankfrontend
 ```
+
+### With Docker
+
+**Step 1:** add this in **.env** file inside /Netbanking
+
+make sure to update with your own **database url and redis url**
+```js
+DATABASE_URL="postgres://YOUR_DB_URL/netbanking?sslmode=require"
+REDIS_URL="YOUR_REDIS_URL"
+HDFC_JWT_LOGIN_SECRET="PAYMNT_SECRET_HDFC"
+VITE_HDFC_MAIN_SERVER="http://localhost:4000/"
+VITE_HDFC_DEBIT_SERVER_URL="http://localhost:4000/api/v1/auth/debit"
+VITE_HDFC_CREATE_SERVER_URL="http://localhost:4000/api/v1/create"
+VITE_HDFC_LOGIN_SERVER_URL="http://localhost:4000/api/v1/auth/login"
+VITE_HDFC_MAIN_SOCKET_SERVER="ws://localhost:4000/"
+VITE_CLOUDFARE_TOKEN="ws://localhost:4000/"
+```
+
+**Step 2:** 
+    Build the _Dockerfile_
+ 
+```shell
+    docker build -t netbanking .
+```
+
+**Step 3:**
+    Update the image name in _**docker-compose-netbanking.yml**_
+
+    image: netbanking:latest
+
+**Step 4:**
+  run in /Netbanking
+
+  ```shell
+    npm run docker-compose
+  ```
 
 ### For dummy data
 [seed.ts](https://github.com/Arunshaik2001/Netbanking/blob/main/packages/db/prisma/seed.ts))

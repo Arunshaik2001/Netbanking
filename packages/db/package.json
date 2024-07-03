@@ -4,7 +4,11 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:migrate": "dotenv -e ../../.env -- npx prisma migrate dev",
+    "prisma:generate": "dotenv -e ./../.env -- npx prisma generate",
+    "prisma:seed": "dotenv -e ./../.env -- npx prisma db seed",
+    "prisma:studio": "dotenv -e ./../.env -- npx prisma studio"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +20,8 @@
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "@prisma/extension-pulse": "^1.0.2",
-    "bcrypt": "^5.1.1"
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

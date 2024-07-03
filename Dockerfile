@@ -8,11 +8,11 @@ RUN apt-get install -y build-essential make automake gcc g++ cpp libkrb5-dev lib
 RUN apt-get update && apt-get install -y apt-utils && apt-get install -y nodejs && apt-get install -y npm && apt-get install -y python3
 RUN npm install -g node-gyp
 
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
-
 # add turborepo
 RUN npm install -g turbo
+
+# add dotenv
+RUN npm install -g dotenv-cli
 
 # Set working directory
 WORKDIR /app

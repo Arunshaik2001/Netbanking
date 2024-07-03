@@ -4,6 +4,9 @@ import {
 } from "@prisma/client";
 import bcrypt from "bcrypt";
 import prisma from '@repo/db/client'
+import dotenv from "dotenv";
+
+dotenv.config({ path: __dirname + "/../../../.env" })
 
 async function main() {
   const netbankingUser = {
@@ -81,18 +84,18 @@ async function main() {
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "http://paymnt-app:3005/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook/offRamp",
+        "http://paymnt-app:3005/api/v1/transaction/hdfcWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_HDFC",
       bankSecretKey: "HDFC_SECRET",
       bankName: BankName.HDFC,
-      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook",
+      webhookUrl: "http://paymnt-app:3005/api/v1/transaction/hdfcWebhook",
       offRampWebhookEndpoint:
-        "https://paymntwebhook.dev-boi.com/api/v1/transaction/hdfcWebhook/offRamp",
+        "http://paymnt-app:3005/api/v1/transaction/hdfcWebhook/offRamp",
     },
   });
 
@@ -108,18 +111,18 @@ async function main() {
       secretKey: "PAYMNT_SECRET_KOTAK",
       bankName: BankName.KOTAK,
       bankSecretKey: "KOTAK_SECRET",
-      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook",
+      webhookUrl: "http://paymnt-app:3005/api/v1/transaction/kotakWebhook",
       offRampWebhookEndpoint:
-        "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook/offRamp",
+        "http://paymnt-app:3005/api/v1/transaction/kotakWebhook/offRamp",
     },
     create: {
       paymentApp: PaymentApp.PAYMNT,
       secretKey: "PAYMNT_SECRET_KOTAK",
       bankSecretKey: "KOTAK_SECRET",
       bankName: BankName.KOTAK,
-      webhookUrl: "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook",
+      webhookUrl: "http://paymnt-app:3005/api/v1/transaction/kotakWebhook",
       offRampWebhookEndpoint:
-        "https://paymntwebhook.dev-boi.com/api/v1/transaction/kotakWebhook/offRamp",
+        "http://paymnt-app:3005/api/v1/transaction/kotakWebhook/offRamp",
     },
   });
 }

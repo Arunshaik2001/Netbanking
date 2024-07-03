@@ -9,7 +9,7 @@ import startWebsocketServer from "./websocketServer";
 import http from 'http';
 
 
-dotenv.config({ path: __dirname + "/../../.env" })
+dotenv.config({ path: __dirname + "/../../../.env" })
 
 
 const app = express();
