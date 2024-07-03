@@ -72,6 +72,10 @@ module.exports = {
  npm run dev:hdfcnetbankfrontend
 ```
 
+### Run Locally using docker
+docker setup is done in branch [**docker-setup**](https://github.com/Arunshaik2001/Netbanking/tree/docker-setup))
+[Docker setup branch](https://github.com/Arunshaik2001/Netbanking/tree/docker-setup#with-docker)
+
 ### For dummy data
 [seed.ts](https://github.com/Arunshaik2001/Netbanking/blob/main/packages/db/prisma/seed.ts))
 
